@@ -1,6 +1,6 @@
 CC?=gcc
-SDL2FLAGS=$(shell pkg-config sdl2 --cflags --libs)
-CFLAGS?=-std=c2x -Wall -pedantic -Werror -Wshadow -Wstrict-aliasing -Wstrict-overflow
+SDL2FLAGS:=$(shell pkg-config sdl2 --cflags --libs)
+CFLAGS?:=-std=c2x -Wall -pedantic -Werror -Wshadow -Wstrict-aliasing -Wstrict-overflow
 
 .PHONY: all msg clean fullclean
 
@@ -26,7 +26,7 @@ main.asm: main.c
 	${CC} ${CFLAGS} -S -masm=intel -Og -o main.asm $< ${SDL2FLAGS}
 
 run: msg main
-	time ./main
+	./main
 
 clean:
 	rm -f main *.o main.asm
