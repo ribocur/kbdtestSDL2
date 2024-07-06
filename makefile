@@ -1,35 +1,35 @@
 CC?=gcc
 SDL2FLAGS:=$(shell pkg-config sdl2 --cflags --libs) -lSDL2_ttf
 CFLAGS?:=-std=c2x -Wall -pedantic -Werror -Wshadow -Wstrict-aliasing -Wstrict-overflow
-
+OUT_NAME=kbdtestsdl2
 .PHONY: all msg clean fullclean
 
-all: msg main
+all: msg ${OUT_NAME}
 
 msg:
 	@echo '--- C2X ---'
 
-main: main.c
+${OUT_NAME}: ${OUT_NAME}.c
 	${CC} ${CFLAGS} -O2 -o $@ $< ${SDL2FLAGS}
 
-small: main.c
-	${CC} ${CFLAGS} -Os -o main $< ${SDL2FLAGS}
-	-strip main
-	-sstrip main
+small: ${OUT_NAME}.c
+	${CC} ${CFLAGS} -Os -o ${OUT_NAME} $< ${SDL2FLAGS}
+	-strip ${OUT_NAME}
+	-sstrip ${OUT_NAME}
 
-debug: main.c
-	${CC} ${CFLAGS} -O1 -g -o main $< ${SDL2FLAGS}
+debug: ${OUT_NAME}.c
+	${CC} ${CFLAGS} -O1 -g -o ${OUT_NAME} $< ${SDL2FLAGS}
 
-asm: main.asm
+asm: ${OUT_NAME}.asm
 
-main.asm: main.c
-	${CC} ${CFLAGS} -S -masm=intel -Og -o main.asm $< ${SDL2FLAGS}
+${OUT_NAME}.asm: ${OUT_NAME}.c
+	${CC} ${CFLAGS} -S -masm=intel -Og -o ${OUT_NAME} $< ${SDL2FLAGS}
 
-run: msg main
-	./main
+run: msg ${OUT_NAME}
+	./${OUT_NAME}
 
 clean:
-	rm -f main *.o main.asm
+	rm -f ${OUT_NAME} *.o ${OUT_NAME}.asm
 
 fullclean: clean
 
