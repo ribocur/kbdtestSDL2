@@ -39,6 +39,8 @@ const SDL_Color COLOR_VIOLET = _COLOR(0x91, 0, 0xFF);
 
 int last_pos_x = 0 - BOX_SIZE;
 int last_pos_y = 0;
+
+char* last_pressed_key = "None";
 SDL_Rect setup_position() {
   SDL_Rect Rectangle;
   Rectangle.x = last_pos_x + BOX_SIZE;
@@ -404,6 +406,7 @@ int main() {
         printf("\n");
         fflush(stdout);
 
+        last_pressed_key = SDL_GetScancodeName(event.key.keysym.scancode);
         switch (event.key.keysym.scancode) {
         case SDL_SCANCODE_ESCAPE:
           first_row_state[0] = 1;
@@ -1187,8 +1190,19 @@ int main() {
       }
     }
 
+    
+    SDL_Surface* lastPressed = TTF_RenderText_Solid(Sans, last_pressed_key, COLOR_YELLOW);
+    SDL_Texture* lastPressedTexture = SDL_CreateTextureFromSurface(ren,lastPressed);
+    SDL_Rect lastPressedLocation;
+    lastPressedLocation.x = 0;
+    lastPressedLocation.y = (BOX_SIZE*6);
+    lastPressedLocation.w = 200;
+    lastPressedLocation.h = 50;
+    SDL_RenderCopy(ren, lastPressedTexture, NULL, &lastPressedLocation);
+    SDL_FreeSurface(lastPressed);
+    SDL_DestroyTexture(lastPressedTexture);
     SDL_RenderPresent(ren);
-    SDL_Delay(100);
+    SDL_Delay(10);
     SDL_RenderClear(ren);
   }
 
