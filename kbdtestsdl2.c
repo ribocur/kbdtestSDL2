@@ -42,13 +42,14 @@ int last_pos_x = 0 - BOX_SIZE;
 int last_pos_y = 0;
 
 char* last_pressed_key = "None";
+int keycode = 0;
 SDL_Rect setup_position() {
   SDL_Rect Rectangle;
   Rectangle.x = last_pos_x + BOX_SIZE;
   last_pos_x += BOX_SIZE;
   Rectangle.y = last_pos_y;
-  Rectangle.w = BOX_SIZE;
-  Rectangle.h = BOX_SIZE;
+  Rectangle.w = BOX_SIZE-5;
+  Rectangle.h = BOX_SIZE-5;
   return Rectangle;
 }
 SDL_Rect setup_poistion_with_custom_size(float width, float height) {
@@ -56,8 +57,8 @@ SDL_Rect setup_poistion_with_custom_size(float width, float height) {
   Rectangle.x = last_pos_x + BOX_SIZE;
   last_pos_x += width;
   Rectangle.y = last_pos_y;
-  Rectangle.w = width;
-  Rectangle.h = height;
+  Rectangle.w = width-5;
+  Rectangle.h = height-5;
   return Rectangle;
 }
 // Setup standard box textures
@@ -407,6 +408,8 @@ int main() {
         printf("\n");
         fflush(stdout);
 
+        keycode =  event.key.keysym.sym;
+        
         last_pressed_key = SDL_GetScancodeName(event.key.keysym.scancode);
         switch (event.key.keysym.scancode) {
         case SDL_SCANCODE_ESCAPE:
@@ -1201,6 +1204,8 @@ int main() {
     SDL_RenderCopy(ren, lastPressedTexture, NULL, &lastPressedLocation);
     SDL_FreeSurface(lastPressed);
     SDL_DestroyTexture(lastPressedTexture);
+
+    // Render
     SDL_RenderPresent(ren);
     SDL_Delay(10);
     SDL_RenderClear(ren);
