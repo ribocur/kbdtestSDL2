@@ -13,6 +13,7 @@
 #include <emmintrin.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <wchar.h>
 
 #define _COLOR(RED, GREEN, BLUE) {RED, GREEN, BLUE, 0xFF}
@@ -50,7 +51,7 @@ SDL_Rect setup_position() {
   Rectangle.h = BOX_SIZE;
   return Rectangle;
 }
-SDL_Rect setup_poistion_with_custom_size(int width, int height) {
+SDL_Rect setup_poistion_with_custom_size(float width, float height) {
   SDL_Rect Rectangle;
   Rectangle.x = last_pos_x + BOX_SIZE;
   last_pos_x += width;
@@ -88,8 +89,8 @@ int main() {
     return EXIT_FAILURE;
   }
 
-  SDL_Window *win = SDL_CreateWindow("ZiobroKeyboardTester v2", 100, 100, 1600,
-                                     500, SDL_WINDOW_SHOWN);
+  SDL_Window *win = SDL_CreateWindow("ZiobroKeyboardTester v2", 100, 100, 1501,
+                                     450, SDL_WINDOW_SHOWN);
   if (!win) {
     fprintf(stderr, "SDL_CreateWindow Error: %s\n", SDL_GetError());
     return EXIT_FAILURE;
@@ -129,7 +130,7 @@ int main() {
       last_pos_x += BOX_SIZE;
       first_row_rect[i] = setup_position();
       break;
-    case 8:
+     case 9:
       last_pos_x += BOX_SIZE;
       first_row_rect[i] = setup_position();
       break;
@@ -226,11 +227,11 @@ int main() {
     switch (i) {
     case 0:
       third_row_rect[i] =
-          setup_poistion_with_custom_size((BOX_SIZE * 2), BOX_SIZE);
+          setup_poistion_with_custom_size((BOX_SIZE * 1.5), BOX_SIZE);
       break;
     case 13:
       third_row_rect[i] =
-          setup_poistion_with_custom_size((BOX_SIZE * 2), BOX_SIZE);
+          setup_poistion_with_custom_size((BOX_SIZE * 2.5), BOX_SIZE);
       break;
     case 14:
       last_pos_x += BOX_SIZE;
@@ -313,11 +314,11 @@ int main() {
     switch (i) {
     case 0:
       fifth_row_rect[i] =
-          setup_poistion_with_custom_size((BOX_SIZE * 3), BOX_SIZE);
+          setup_poistion_with_custom_size((BOX_SIZE * 2.5), BOX_SIZE);
       break;
     case 11:
       fifth_row_rect[i] =
-          setup_poistion_with_custom_size((BOX_SIZE * 3), BOX_SIZE);
+          setup_poistion_with_custom_size((BOX_SIZE * 3.5), BOX_SIZE);
       break;
     case 12:
       last_pos_x += (BOX_SIZE * 2);
@@ -703,7 +704,7 @@ int main() {
         case SDL_SCANCODE_RGUI:
           sixth_row_state[5] = 1;
           break;
-        case SDL_SCANCODE_MENU:
+        case SDL_SCANCODE_APPLICATION:
           sixth_row_state[6] = 1;
           break;
         case SDL_SCANCODE_RCTRL:
@@ -1027,7 +1028,7 @@ int main() {
         case SDL_SCANCODE_RGUI:
           sixth_row_state[5] = 2;
           break;
-        case SDL_SCANCODE_MENU:
+        case SDL_SCANCODE_APPLICATION:
           sixth_row_state[6] = 2;
           break;
         case SDL_SCANCODE_RCTRL:
@@ -1190,14 +1191,13 @@ int main() {
       }
     }
 
-    
     SDL_Surface* lastPressed = TTF_RenderText_Solid(Sans, last_pressed_key, COLOR_YELLOW);
     SDL_Texture* lastPressedTexture = SDL_CreateTextureFromSurface(ren,lastPressed);
     SDL_Rect lastPressedLocation;
     lastPressedLocation.x = 0;
     lastPressedLocation.y = (BOX_SIZE*6);
     lastPressedLocation.w = 200;
-    lastPressedLocation.h = 50;
+    lastPressedLocation.h = 100;
     SDL_RenderCopy(ren, lastPressedTexture, NULL, &lastPressedLocation);
     SDL_FreeSurface(lastPressed);
     SDL_DestroyTexture(lastPressedTexture);
